@@ -11,12 +11,7 @@ export function AppHeader({ compact = false }: { compact?: boolean }) {
           </span>
           <span className="font-serif text-[25px] font-semibold tracking-[-0.03em]">Crossly</span>
         </Link>
-        {!compact && (
-          <nav className="flex items-center gap-2 sm:gap-6" aria-label="Main navigation">
-            <Link href="/play/sample-the-inkling" className="hidden text-sm font-medium text-black/60 transition hover:text-ink sm:block">Play sample</Link>
-            <Link href="/create" className="button-primary !px-3.5 !py-2 sm:!px-4"><Plus size={16} /> Create</Link>
-          </nav>
-        )}
+        {!compact && <nav aria-label="Main navigation"><Link href="/create" className="button-primary !px-3.5 !py-2 sm:!px-4"><Plus size={16} /> Create</Link></nav>}
       </div>
     </header>
   );

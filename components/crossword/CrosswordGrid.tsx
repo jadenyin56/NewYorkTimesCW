@@ -28,7 +28,7 @@ export function CrosswordGrid({
   return (
     <div
       className="w-full select-none outline-none focus-visible:ring-4 focus-visible:ring-saffron/50"
-      style={{ maxWidth: `min(100%, ${Math.max(360, puzzle.width * 54)}px)` }}
+      style={{ maxWidth: `min(100%, ${Math.max(360, puzzle.width * 54)}px)`, containerType: "inline-size" }}
       role="grid"
       aria-label={`${puzzle.width} by ${puzzle.height} crossword grid`}
       tabIndex={0}
@@ -36,7 +36,7 @@ export function CrosswordGrid({
     >
       <div
         className="grid border-[2px] border-ink bg-ink"
-        style={{ gridTemplateColumns: `repeat(${puzzle.width}, minmax(0, 1fr))`, aspectRatio: `${puzzle.width} / ${puzzle.height}` } as CSSProperties}
+        style={{ gridTemplateColumns: `repeat(${puzzle.width}, minmax(0, 1fr))`, gridTemplateRows: `repeat(${puzzle.height}, minmax(0, 1fr))`, aspectRatio: `${puzzle.width} / ${puzzle.height}` } as CSSProperties}
       >
         {puzzle.cells.map((cell) => {
           const key = cellKey(cell.row, cell.col);
@@ -57,14 +57,14 @@ export function CrosswordGrid({
               type="button"
               role="gridcell"
               disabled={cell.blocked && mode !== "layout"}
-              className={`relative flex min-h-0 min-w-0 items-center justify-center border-b border-r border-black/70 p-0 outline-none transition-colors ${stateClass}`}
+              className={`relative flex min-h-0 min-w-0 overflow-hidden items-center justify-center border-b border-r border-black/70 p-0 outline-none transition-colors ${stateClass}`}
               aria-label={`Row ${cell.row + 1}, column ${cell.col + 1}${cell.number ? `, clue ${cell.number}` : ""}${cell.blocked ? ", blocked" : ""}`}
               aria-selected={selected}
               onClick={() => onCellClick?.({ row: cell.row, col: cell.col })}
               onPointerEnter={(event) => onCellPointerEnter?.({ row: cell.row, col: cell.col }, event)}
             >
-              {!cell.blocked && cell.number && <span className="absolute left-[7%] top-[3%] text-[clamp(7px,1.6vw,12px)] font-semibold leading-none">{cell.number}</span>}
-              {!cell.blocked && <span className="translate-y-[3%] text-[clamp(16px,5vw,34px)] font-medium uppercase leading-none">{letter}</span>}
+              {!cell.blocked && cell.number && <span className="absolute left-[7%] top-[5%] font-semibold leading-none" style={{ fontSize: `clamp(5px, calc(19cqw / ${puzzle.width}), 12px)` }}>{cell.number}</span>}
+              {!cell.blocked && <span className="translate-y-[3%] font-medium uppercase leading-none" style={{ fontSize: `clamp(6px, calc(56cqw / ${puzzle.width}), 34px)` }}>{letter}</span>}
               {!cell.blocked && revealed.has(key) && <span className="absolute bottom-[6%] right-[7%] h-1.5 w-1.5 rounded-full border border-ink bg-white" title="Revealed" />}
             </button>
           );

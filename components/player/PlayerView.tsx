@@ -127,7 +127,7 @@ export function PlayerView({ puzzle, preview = false, onExitPreview, progressSlu
       <div className="page-shell py-6 sm:py-9">
         <div className="mb-5 flex items-center justify-between gap-4">
           {preview ? <button onClick={onExitPreview} className="inline-flex items-center gap-2 text-xs font-semibold text-black/55 hover:text-ink"><ArrowLeft size={14} /> Back to editing</button> : <Link href="/" className="inline-flex items-center gap-2 text-xs font-semibold text-black/55 hover:text-ink"><ArrowLeft size={14} /> All crosswords</Link>}
-          {preview ? <span className="rounded bg-saffron/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest">Preview mode</span> : !progressSlug && puzzle.id !== "sample-the-inkling" && <Link href={`/create?id=${puzzle.id}`} className="inline-flex items-center gap-2 text-xs font-semibold text-black/55 hover:text-ink"><Pencil size={13} /> Edit puzzle</Link>}
+          {preview ? <span className="rounded bg-saffron/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest">Preview mode</span> : !progressSlug && <Link href={`/create?id=${puzzle.id}`} className="inline-flex items-center gap-2 text-xs font-semibold text-black/55 hover:text-ink"><Pencil size={13} /> Edit puzzle</Link>}
         </div>
         <header className="grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
           <div><p className="eyebrow mb-2">Crossly puzzle</p><h1 className="font-serif text-4xl tracking-[-.03em] sm:text-5xl">{puzzle.title}</h1><p className="mt-2 text-sm text-black/50">By {puzzle.author || "Anonymous"}{puzzle.description ? ` · ${puzzle.description}` : ""}</p></div>

@@ -14,6 +14,7 @@ import { isCrosswordPuzzle, validatePuzzle } from "@/lib/crossword/validation";
 import type { PuzzlePublication, PuzzleVisibility } from "@/lib/publication";
 import { loadPublication, loadPuzzle, savePublication, savePuzzle } from "@/lib/storage";
 import { ClueEditor } from "./ClueEditor";
+import { AIAssistDialog, type AIGeneratedGrid } from "./AIAssistDialog";
 import { CreatorToolbar, type CreatorMode } from "./CreatorToolbar";
 import { GridSettings } from "./GridSettings";
 import { PublishDialog } from "./PublishDialog";
@@ -39,18 +40,24 @@ export function CreatorWorkspace() {
   const [visibility, setVisibility] = useState<PuzzleVisibility>("unlisted");
   const [publishing, setPublishing] = useState(false);
   const [publishDialog, setPublishDialog] = useState<{ link: string; updated: boolean } | null>(null);
+  const [showAIAssist, setShowAIAssist] = useState(false);
+  const [suggestingClueId, setSuggestingClueId] = useState<string>();
   const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const editId = searchParams.get("id");
-    if (!editId) return;
-    const saved = loadPuzzle(editId);
-    if (saved) {
-      setPuzzle(saved);
-      const published = loadPublication(saved.id);
-      setPublication(published);
-      if (published) setVisibility(published.visibility);
+    if (editId) {
+      const saved = loadPuzzle(editId);
+      if (saved) {
+        setPuzzle(saved);
+        const published = loadPublication(saved.id);
+        setPublication(published);
+        if (published) setVisibility(published.visibility);
+      }
+      return;
     }
+    const theme = searchParams.get("theme")?.trim().slice(0, 80);
+    if (theme) setPuzzle((current) => ({ ...current, title: theme, description: `A themed crossword about ${theme}.` }));
   }, [searchParams]);
 
   const activeClue = useMemo(() => activeClueForCell(puzzle, selected, direction), [puzzle, selected, direction]);
@@ -119,6 +126,58 @@ export function CreatorWorkspace() {
   }
 
   function selectClue(clue: CrosswordClue) { setSelected(clue.cells[0]); setDirection(clue.direction); }
+
+  function applyAIGeneratedGrid(grid: AIGeneratedGrid) {
+    const width = grid.rows[0]?.length ?? puzzle.width;
+    const height = grid.rows.length;
+    const cells = grid.rows.flatMap((row, rowIndex) => [...row].map((value, colIndex) => ({
+      row: rowIndex,
+      col: colIndex,
+      blocked: value === "#",
+      solution: value === "#" ? "" : value,
+    })));
+    const derived = generateClues({ width, height, cells });
+    setPuzzle((current) => ({
+      ...current,
+      title: grid.title,
+      description: grid.description,
+      width,
+      height,
+      cells: derived.cells,
+      clues: derived.clues,
+      updatedAt: new Date().toISOString(),
+    }));
+    const firstOpenCell = derived.cells.find((cell) => !cell.blocked);
+    setSelected(firstOpenCell ? { row: firstOpenCell.row, col: firstOpenCell.col } : null);
+    setDirection("across");
+    setMode("clues");
+    flash("AI grid generated — review the fill and add clues");
+  }
+
+  async function suggestClue(clue: CrosswordClue) {
+    if (!clue.answer) return;
+    if (clue.clue && !window.confirm(`Replace the current clue for ${clue.answer}?`)) return;
+    setSuggestingClueId(clue.id);
+    try {
+      const response = await fetch("/api/ai/clue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          answer: clue.answer,
+          theme: [puzzle.title, puzzle.description].filter(Boolean).join(". "),
+          direction: clue.direction,
+        }),
+      });
+      const result = await response.json() as { clue?: string; error?: string };
+      if (!response.ok || !result.clue) throw new Error(result.error || "The AI could not suggest a clue.");
+      updateClue(clue.id, result.clue);
+      selectClue(clue);
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "The AI could not suggest a clue.");
+    } finally {
+      setSuggestingClueId(undefined);
+    }
+  }
 
   function flash(message: string) { setNotice(message); window.setTimeout(() => setNotice(null), 2400); }
 
@@ -208,12 +267,16 @@ export function CreatorWorkspace() {
             <p className="eyebrow mb-2">Crossword creator</p>
             <input aria-label="Puzzle title" value={puzzle.title} onChange={(event) => setPuzzle({ ...puzzle, title: event.target.value })} className="w-full bg-transparent font-serif text-4xl font-medium tracking-[-.03em] outline-none placeholder:text-black/25 sm:text-5xl" placeholder="Untitled Crossword" />
           </div>
-          <label className="text-xs font-semibold text-black/50">Made by<input value={puzzle.author ?? ""} onChange={(event) => setPuzzle({ ...puzzle, author: event.target.value })} className="field mt-1 lg:w-64" placeholder="Your name" /></label>
+          <label className="block text-xs font-semibold text-black/50 lg:mr-4">
+            <span className="block">Made by</span>
+            <input value={puzzle.author ?? ""} onChange={(event) => setPuzzle({ ...puzzle, author: event.target.value })} className="field mt-1 block lg:w-64" placeholder="Your name" />
+          </label>
         </div>
         <CreatorToolbar
           mode={mode} onModeChange={setMode} onSave={save} onPreview={() => setPreview(true)} onExport={exportJson} onImport={() => fileInput.current?.click()}
           visibility={visibility} publication={publication} publishing={publishing} onVisibilityChange={setVisibility} onPublish={publish}
           onCopyLink={copyPublishedLink} onOpenPublished={() => window.open(publishedLink(), "_blank", "noopener,noreferrer")} onDuplicate={duplicate}
+          onAIAssist={() => setShowAIAssist(true)}
         />
         <label className="mt-4 block text-xs font-semibold text-black/50">Description
           <textarea value={puzzle.description ?? ""} onChange={(event) => setPuzzle({ ...puzzle, description: event.target.value })} className="field mt-1 min-h-20 resize-y" maxLength={1000} placeholder="A short note for your solvers (optional)" />
@@ -233,7 +296,7 @@ export function CreatorWorkspace() {
           <aside className="min-w-0 border-t border-black/15 pt-7 xl:border-l xl:border-t-0 xl:pl-8 xl:pt-0">
             {mode === "layout" && <div className="space-y-8"><GridSettings width={puzzle.width} height={puzzle.height} symmetry={symmetry} onResize={resize} onSymmetryChange={setSymmetry} onReset={() => { if (window.confirm("Clear the entire grid?")) updateStructure(createBlankCells(puzzle.width, puzzle.height)); }} /><div className="flex gap-3 bg-sky/45 p-4 text-xs leading-5 text-black/65"><Info size={17} className="shrink-0" /><p>Start with the shape. Every white square should connect to another, and standard puzzles avoid one-letter entries.</p></div></div>}
             {mode === "answers" && <div><p className="eyebrow mb-4">Answer entry</p><h2 className="font-serif text-3xl">Fill every white square.</h2><p className="mt-3 max-w-md text-sm leading-6 text-black/55">Letters advance through the active word. Use arrow keys to move freely, Backspace to erase, and Space to switch direction at a crossing.</p><div className="mt-7"><ValidationPanel issues={issues.filter((issue) => issue.id.startsWith("blank") || issue.id.startsWith("invalid"))} onIssueClick={visitIssue} /></div></div>}
-            {mode === "clues" && <ClueEditor puzzle={puzzle} activeClueId={activeClue?.id} onSelect={selectClue} onChange={updateClue} />}
+              {mode === "clues" && <ClueEditor puzzle={puzzle} activeClueId={activeClue?.id} suggestingClueId={suggestingClueId} onSelect={selectClue} onChange={updateClue} onSuggest={suggestClue} />}
           </aside>
         </div>
 
@@ -244,6 +307,15 @@ export function CreatorWorkspace() {
       </div>
       {notice && <div className="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded bg-ink px-5 py-3 text-sm font-semibold text-white shadow-xl"><Check size={16} className="text-saffron" />{notice}</div>}
       {publishDialog && <PublishDialog title={puzzle.title} link={publishDialog.link} updated={publishDialog.updated} onClose={() => setPublishDialog(null)} />}
+      {showAIAssist && (
+        <AIAssistDialog
+          initialTheme={puzzle.title === "Untitled Crossword" ? "" : puzzle.title}
+          initialWidth={puzzle.width}
+          initialHeight={puzzle.height}
+          onApply={applyAIGeneratedGrid}
+          onClose={() => setShowAIAssist(false)}
+        />
+      )}
     </main>
   );
 }

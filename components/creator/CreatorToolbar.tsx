@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, CopyPlus, Download, ExternalLink, Eye, Globe2, LoaderCircle, Save, Upload } from "lucide-react";
+import { Check, Copy, CopyPlus, Download, ExternalLink, Eye, Globe2, LoaderCircle, Save, Sparkles, Upload } from "lucide-react";
 import type { PuzzlePublication, PuzzleVisibility } from "@/lib/publication";
 
 export type CreatorMode = "layout" | "answers" | "clues";
@@ -20,9 +20,10 @@ interface Props {
   onCopyLink: () => void;
   onOpenPublished: () => void;
   onDuplicate: () => void;
+  onAIAssist: () => void;
 }
 
-export function CreatorToolbar({ mode, onModeChange, onSave, onPreview, onExport, onImport, visibility, publication, publishing, onVisibilityChange, onPublish, onCopyLink, onOpenPublished, onDuplicate }: Props) {
+export function CreatorToolbar({ mode, onModeChange, onSave, onPreview, onExport, onImport, visibility, publication, publishing, onVisibilityChange, onPublish, onCopyLink, onOpenPublished, onDuplicate, onAIAssist }: Props) {
   return (
     <div className="border-y border-black/15 py-4">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -34,6 +35,7 @@ export function CreatorToolbar({ mode, onModeChange, onSave, onPreview, onExport
           ))}
         </div>
         <div className="flex flex-wrap gap-2">
+          <button className="inline-flex items-center gap-2 rounded-md bg-saffron px-3 py-2 text-xs font-bold text-ink transition hover:bg-[#dcae43] focus:outline-none focus-visible:ring-2 focus-visible:ring-rust" onClick={onAIAssist}><Sparkles size={15} /> AI assistance</button>
           <button className="button-secondary !px-3 !py-2" onClick={onImport}><Upload size={15} /> Import</button>
           <button className="button-secondary !px-3 !py-2" onClick={onExport}><Download size={15} /> Export</button>
           <button className="button-secondary !px-3 !py-2" onClick={onPreview}><Eye size={15} /> Preview</button>

@@ -35,3 +35,42 @@ button { -webkit-tap-highlight-color: transparent; }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .animate-pop { animation: pop-in .28s ease-out both; }
+
+[data-scroll-reveal].reveal-ready {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
+}
+[data-scroll-reveal].reveal-ready.is-visible { opacity: 1; transform: translateY(0); }
+
+.theme-rail { overflow: hidden; }
+.theme-track { display: flex; width: max-content; animation: theme-scroll 38s linear infinite; }
+.theme-group { display: flex; flex-shrink: 0; }
+.theme-rail:hover .theme-track,
+.theme-rail:focus-within .theme-track { animation-play-state: paused; }
+
+.visual-cell:not(.bg-ink) { transition: background-color .2s ease; }
+.visual-cell:not(.bg-ink):hover { background: #b8ddeb; }
+.visual-letter {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: letter-in .38s cubic-bezier(.22, 1, .36, 1) forwards;
+  transition: transform .2s ease;
+}
+.visual-cell:hover .visual-letter { transform: scale(1.08); }
+
+@keyframes theme-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes letter-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .theme-track { animation: none; }
+  .visual-letter { animation: none; opacity: 1; transform: none; }
+  [data-scroll-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
