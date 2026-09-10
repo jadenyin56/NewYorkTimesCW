@@ -198,7 +198,3 @@ Because this version does not require accounts, Crossly stores a high-entropy ed
 - Undo/redo history in the constructor
 - Multiple AI fill variants and difficulty controls
 - Accessibility preference controls and high-contrast themes
-
-## Originality
-
-Crossly uses an original name, interface, and visual system. It does not include newspaper trademarks, proprietary fonts, branded assets, or copied puzzle content.
