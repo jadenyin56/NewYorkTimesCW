@@ -3,6 +3,7 @@ import { generateClues } from "@/lib/crossword/engine";
 import type { CrosswordCell, CrosswordPuzzle } from "@/lib/crossword/types";
 import { validatePuzzle } from "@/lib/crossword/validation";
 import { getAIModel, getOpenAIClient, isAIConfigured } from "@/lib/ai/openai";
+import { openAIErrorResponse } from "@/lib/ai/errors";
 import { allowAIRequest } from "@/lib/ai/rateLimit";
 
 export const maxDuration = 60;
@@ -64,9 +65,10 @@ export async function POST(request: Request) {
     },
   };
   let feedback = "";
-  try {
-    for (let attempt = 0; attempt < 3; attempt++) {
-      const response = await getOpenAIClient().responses.create({
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let response;
+    try {
+      response = await getOpenAIClient().responses.create({
         model: getAIModel(),
         store: false,
         max_output_tokens: 1800,
@@ -74,13 +76,30 @@ export async function POST(request: Request) {
         input: `Create a ${width} by ${height} crossword. Theme: ${JSON.stringify(theme || "open theme")}. Required entries: ${JSON.stringify(words)}.${feedback ? ` Correct these problems from the previous attempt: ${feedback}` : ""}`,
         text: { format, verbosity: "low" },
       });
-      const parsed = JSON.parse(response.output_text) as GridResponse;
-      const checked = validateGrid(parsed, width, height, words);
-      if (checked.result) return NextResponse.json(checked.result);
-      feedback = checked.error ?? "The grid was invalid.";
+    } catch (error) {
+      return openAIErrorResponse(error, "grid");
     }
-    return NextResponse.json({ error: "The AI couldn’t produce a valid grid with those constraints. Try fewer required words or a larger size." }, { status: 422 });
-  } catch {
-    return NextResponse.json({ error: "The AI service could not generate a grid right now. Check the server key and try again." }, { status: 502 });
+
+    if (!response.output_text) {
+      feedback = "The response did not contain a completed grid.";
+      console.warn("[ai/grid] Empty model output", { attempt: attempt + 1, responseId: response.id, status: response.status });
+      continue;
+    }
+
+    let parsed: GridResponse;
+    try {
+      parsed = JSON.parse(response.output_text) as GridResponse;
+    } catch {
+      feedback = "The response was not valid structured JSON.";
+      console.warn("[ai/grid] Invalid structured output", { attempt: attempt + 1, responseId: response.id, status: response.status });
+      continue;
+    }
+
+    const checked = validateGrid(parsed, width, height, words);
+    if (checked.result) return NextResponse.json(checked.result);
+    feedback = checked.error ?? "The grid was invalid.";
+    console.warn("[ai/grid] Generated grid failed validation", { attempt: attempt + 1, responseId: response.id, reason: feedback });
   }
+
+  return NextResponse.json({ error: "The AI couldn’t produce a valid grid with those constraints. Try fewer required words or a larger size." }, { status: 422 });
 }

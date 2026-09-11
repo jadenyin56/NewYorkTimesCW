@@ -1,0 +1,308 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1789069023.89951,
+    "seen": 1789084776.793487,
+    "ast_hash": "22a3e260c2b11469e48eb70ca600e325",
+    "semantic_hash": ""
+  },
+  ".codex/hooks.json": {
+    "mtime": 1789069016.7660792,
+    "seen": 1789084776.793489,
+    "ast_hash": "038fdba63c928e58bf65ebf294727fce",
+    "semantic_hash": ""
+  },
+  "app/api/ai/clue/route.ts": {
+    "mtime": 1789084281.9174716,
+    "seen": 1789084776.79349,
+    "ast_hash": "6367ce7fa7a9cdbde22c0c52d1031787",
+    "semantic_hash": ""
+  },
+  "app/api/ai/fill/route.ts": {
+    "mtime": 1789084281.8672473,
+    "seen": 1789084776.79349,
+    "ast_hash": "4b8e1f85a74b706d4c349ceb68a14c66",
+    "semantic_hash": ""
+  },
+  "app/api/puzzles/route.ts": {
+    "mtime": 1788947993.2374408,
+    "seen": 1789084776.793491,
+    "ast_hash": "cd583c2e3c9839aa7a8626311f280b06",
+    "semantic_hash": ""
+  },
+  "app/create/page.tsx": {
+    "mtime": 1788935995.299695,
+    "seen": 1789084776.793492,
+    "ast_hash": "c634607d220dce20493eb1b9cd2fc333",
+    "semantic_hash": ""
+  },
+  "app/layout.tsx": {
+    "mtime": 1788936429.4604583,
+    "seen": 1789084776.793492,
+    "ast_hash": "e9ee60ffb664ea3d94dbe002612f9507",
+    "semantic_hash": ""
+  },
+  "app/p/[slug]/loading.tsx": {
+    "mtime": 1788938874.3005905,
+    "seen": 1789084776.793497,
+    "ast_hash": "e002971cce1b124f9e9191693b860caf",
+    "semantic_hash": ""
+  },
+  "app/p/[slug]/not-found.tsx": {
+    "mtime": 1788948106.948833,
+    "seen": 1789084776.793498,
+    "ast_hash": "c7ea21cfd81631931b4797bc8b5d192b",
+    "semantic_hash": ""
+  },
+  "app/p/[slug]/page.tsx": {
+    "mtime": 1788948106.9077218,
+    "seen": 1789084776.793499,
+    "ast_hash": "60b68868cc37ba95d6292deafce87c54",
+    "semantic_hash": ""
+  },
+  "app/page.tsx": {
+    "mtime": 1788935913.358067,
+    "seen": 1789084776.793499,
+    "ast_hash": "7f5385b1815b274d66ce414abc518207",
+    "semantic_hash": ""
+  },
+  "app/play/[id]/page.tsx": {
+    "mtime": 1788936293.4349034,
+    "seen": 1789084776.7935,
+    "ast_hash": "27789383c26af2b07c8be61634cbe290",
+    "semantic_hash": ""
+  },
+  "components/creator/AIAssistDialog.tsx": {
+    "mtime": 1789010488.272298,
+    "seen": 1789084776.7935,
+    "ast_hash": "6488b52603ee059b95fb6baf9f3d917c",
+    "semantic_hash": ""
+  },
+  "components/creator/ClueEditor.tsx": {
+    "mtime": 1789011006.774303,
+    "seen": 1789084776.793501,
+    "ast_hash": "0e24338abe0e90dfc056bdd3a6da2779",
+    "semantic_hash": ""
+  },
+  "components/creator/CreatorToolbar.tsx": {
+    "mtime": 1789010523.9412034,
+    "seen": 1789084776.793501,
+    "ast_hash": "56fb6d313692bb28781b8e89ea3502f8",
+    "semantic_hash": ""
+  },
+  "components/creator/CreatorWorkspace.tsx": {
+    "mtime": 1789010869.4927864,
+    "seen": 1789084776.793501,
+    "ast_hash": "298357b594cf40a47cedc06ba6babae5",
+    "semantic_hash": ""
+  },
+  "components/creator/GridSettings.tsx": {
+    "mtime": 1788935995.4137964,
+    "seen": 1789084776.7935019,
+    "ast_hash": "26526dec20b46366384856d77c3422b9",
+    "semantic_hash": ""
+  },
+  "components/creator/PublishDialog.tsx": {
+    "mtime": 1788939130.3546968,
+    "seen": 1789084776.7935019,
+    "ast_hash": "6e53381628d256a113c0cf95fd7d2b24",
+    "semantic_hash": ""
+  },
+  "components/creator/ValidationPanel.tsx": {
+    "mtime": 1788935995.496601,
+    "seen": 1789084776.793503,
+    "ast_hash": "a0e23c785f208fd78c5688b2046a0d0d",
+    "semantic_hash": ""
+  },
+  "components/crossword/ActiveClue.tsx": {
+    "mtime": 1788935833.6026807,
+    "seen": 1789084776.793503,
+    "ast_hash": "7f79eb2cf30a10fc6bebf02cf5aef3e6",
+    "semantic_hash": ""
+  },
+  "components/crossword/CrosswordClues.tsx": {
+    "mtime": 1788935833.6423213,
+    "seen": 1789084776.793503,
+    "ast_hash": "c5d5167f19d2edb837d8f9d459c1e10a",
+    "semantic_hash": ""
+  },
+  "components/crossword/CrosswordGrid.tsx": {
+    "mtime": 1788949553.0934346,
+    "seen": 1789084776.793504,
+    "ast_hash": "79b728f69e60630ad771f55d57ae33b8",
+    "semantic_hash": ""
+  },
+  "components/home/HomeContent.tsx": {
+    "mtime": 1788958105.2259502,
+    "seen": 1789084776.793504,
+    "ast_hash": "89b9dbc80a70444846f0ce859dea7855",
+    "semantic_hash": ""
+  },
+  "components/layout/AppHeader.tsx": {
+    "mtime": 1788949553.1460934,
+    "seen": 1789084776.793505,
+    "ast_hash": "efec05f6e5f41163de9995c9b0c920db",
+    "semantic_hash": ""
+  },
+  "components/player/CompletionModal.tsx": {
+    "mtime": 1788936293.562666,
+    "seen": 1789084776.793505,
+    "ast_hash": "3a764dd8527b0e1958985f728a1f00e6",
+    "semantic_hash": ""
+  },
+  "components/player/PlayerPageClient.tsx": {
+    "mtime": 1788949553.1947813,
+    "seen": 1789084776.7935061,
+    "ast_hash": "b427ecfe9fd3c7778017e1d31756a8d4",
+    "semantic_hash": ""
+  },
+  "components/player/PlayerToolbar.tsx": {
+    "mtime": 1788936293.5277617,
+    "seen": 1789084776.7935061,
+    "ast_hash": "a0b96ce48c1577e5086e422fa9cad6db",
+    "semantic_hash": ""
+  },
+  "components/player/PlayerView.tsx": {
+    "mtime": 1788949553.247673,
+    "seen": 1789084776.7935061,
+    "ast_hash": "9f5b0f8641bfbbad0c135cd014244328",
+    "semantic_hash": ""
+  },
+  "components/player/Timer.tsx": {
+    "mtime": 1788936293.4928906,
+    "seen": 1789084776.793507,
+    "ast_hash": "1aad811e2aaacf30c83a7439d8419da0",
+    "semantic_hash": ""
+  },
+  "eslint.config.mjs": {
+    "mtime": 1788936862.3032362,
+    "seen": 1789084776.793507,
+    "ast_hash": "2de7117dde4cc92b9bc392561f6222fe",
+    "semantic_hash": ""
+  },
+  "lib/ai/errors.ts": {
+    "mtime": 1789084281.7957115,
+    "seen": 1789084776.793507,
+    "ast_hash": "c87c4631e6a37943fdaa71c25d60e810",
+    "semantic_hash": ""
+  },
+  "lib/ai/openai.ts": {
+    "mtime": 1789010248.7803628,
+    "seen": 1789084776.793508,
+    "ast_hash": "0e29572fda2a4def95457df7b1ae2b8e",
+    "semantic_hash": ""
+  },
+  "lib/ai/rateLimit.ts": {
+    "mtime": 1789010248.8230858,
+    "seen": 1789084776.793508,
+    "ast_hash": "1981748925e2dac92f1f2fc16ab86022",
+    "semantic_hash": ""
+  },
+  "lib/crossword/engine.ts": {
+    "mtime": 1788936582.1358924,
+    "seen": 1789084776.793509,
+    "ast_hash": "9a27f7fd161fb053290cb407f1b80710",
+    "semantic_hash": ""
+  },
+  "lib/crossword/puzzleUtils.ts": {
+    "mtime": 1788935713.427761,
+    "seen": 1789084776.793509,
+    "ast_hash": "429e6767e6e4c3c1d3d1d0a3f317625b",
+    "semantic_hash": ""
+  },
+  "lib/crossword/types.ts": {
+    "mtime": 1788947993.3184896,
+    "seen": 1789084776.793509,
+    "ast_hash": "a3b8e4adb2ba9661d7ec1beb53f26d1d",
+    "semantic_hash": ""
+  },
+  "lib/crossword/validation.ts": {
+    "mtime": 1788948259.828473,
+    "seen": 1789084776.79351,
+    "ast_hash": "4f814e67f037573f2ab057e2acf102e4",
+    "semantic_hash": ""
+  },
+  "lib/publication.ts": {
+    "mtime": 1788937918.327494,
+    "seen": 1789084776.79351,
+    "ast_hash": "0288a4bc1f8541a9b2bde549b51af476",
+    "semantic_hash": ""
+  },
+  "lib/storage.ts": {
+    "mtime": 1788937918.3695514,
+    "seen": 1789084776.793511,
+    "ast_hash": "c54f47a49abbe2bbdffb8cfbab1900a8",
+    "semantic_hash": ""
+  },
+  "lib/supabase/client.ts": {
+    "mtime": 1788937918.2847059,
+    "seen": 1789084776.793511,
+    "ast_hash": "5455c5bb58674185b9664b80e1190b1e",
+    "semantic_hash": ""
+  },
+  "lib/supabase/puzzles.ts": {
+    "mtime": 1788947993.2748623,
+    "seen": 1789084776.793511,
+    "ast_hash": "d265259356871faba7c7d64d6ffca687",
+    "semantic_hash": ""
+  },
+  "next-env.d.ts": {
+    "mtime": 1788949682.9110866,
+    "seen": 1789084776.7935119,
+    "ast_hash": "8195d2c60ce847a459ae9d308d6a5724",
+    "semantic_hash": ""
+  },
+  "next.config.ts": {
+    "mtime": 1788935554.3753865,
+    "seen": 1789084776.7935119,
+    "ast_hash": "8a9becd0dd0447503aa37374a503d4d9",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1789010248.6538656,
+    "seen": 1789084776.793513,
+    "ast_hash": "c8ee9adff33e6cdc865c196873878da9",
+    "semantic_hash": ""
+  },
+  "postcss.config.mjs": {
+    "mtime": 1788936862.3456354,
+    "seen": 1789084776.793513,
+    "ast_hash": "d3fd1d29b05a09ff76b595a70e1e7d50",
+    "semantic_hash": ""
+  },
+  "tailwind.config.ts": {
+    "mtime": 1788936429.5051062,
+    "seen": 1789084776.793514,
+    "ast_hash": "c8f6abc1e1a4131a3c67b524b0c0e55e",
+    "semantic_hash": ""
+  },
+  "tests/crossword-engine.test.ts": {
+    "mtime": 1788936582.3000584,
+    "seen": 1789084776.793514,
+    "ast_hash": "358a4202ae9e3368c4506da323fa7059",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "mtime": 1788936911.826176,
+    "seen": 1789084776.793515,
+    "ast_hash": "4702c57e203bf19749275e3c04f94ac1",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1789069016.76586,
+    "seen": 1789084776.793515,
+    "ast_hash": "6a47d64fcc136324ca395065a707ef76",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1789069023.8992958,
+    "seen": 1789084776.793515,
+    "ast_hash": "82efb97a359f5c7290bf2513d14686be",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1789068372.6630123,
+    "seen": 1789084776.793516,
+    "ast_hash": "ea28730a39b6a9c77ef61ba17bcd84b9",
+    "semantic_hash": ""
+  }
+}

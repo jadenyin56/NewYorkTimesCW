@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { openAIErrorResponse } from "@/lib/ai/errors";
 import { getAIModel, getOpenAIClient, isAIConfigured } from "@/lib/ai/openai";
 import { allowAIRequest } from "@/lib/ai/rateLimit";
 
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
     const clue = parsed.clue?.trim().slice(0, 180);
     if (!clue) throw new Error("Empty clue");
     return NextResponse.json({ clue });
-  } catch {
-    return NextResponse.json({ error: "The AI service could not suggest a clue right now." }, { status: 502 });
+  } catch (error) {
+    return openAIErrorResponse(error, "clue");
   }
 }
